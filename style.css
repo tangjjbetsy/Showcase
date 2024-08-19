@@ -9,8 +9,8 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 1500px;
     margin: 20px auto;
     background-color: #ffffff;
     border-radius: 10px;
@@ -51,7 +51,7 @@ table {
 }
 
 th, td {
-    padding: 10px;
+    padding: 15px;
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
@@ -103,6 +103,12 @@ ol {
 ul li, ol li {
     margin-bottom: 10px;
     line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 /* Responsive Design */
