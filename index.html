@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Midi Synthesis through VALLE Model with Fine-tuned Encodec Model">
+    <meta name="description" content="AI-Driven Transformation of Score MIDI into Expressive Piano Performance">
     <!-- <meta name="keywords" content="audio effects deep learning style transfer differentiable signal processing pytorch"> -->
     <meta name="author" content="Jingjing Tang">
 
     
-    <title>Midi Synthesis through VALLE Model with Fine-tuned Encodec Model</title>
+    <title>AI-Driven Transformation of Score MIDI into Expressive Piano Performance</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#563d7c">
@@ -31,8 +31,10 @@
         <div class="container">
             <div class="text-wrap" width="200px">
             <h1 class="pt-5">
-            Midi Synthesis through VALLE Model <br> 
-            with Fine-tuned Encodec Model
+             AI-Driven Transformation of Score MIDI into
+             <br>
+             Expressive Piano Performance
+
             </h1>
             </div>
             <!-- <p style="font-size: 1.3em; margin-bottom: 0;">
@@ -57,560 +59,92 @@
     <div class="container mt-4 " style="max-width: 950px;">
         <div class="container">
             <div class="section">
-                <h2 class="text-center">Step1: Fine-Tuning the Encodec with the ATEPP audios</h2>
-                <hr>
-                <img src="./imgs/encodec.png" alt="encodec architecture" style="width: 100%;">
-                <p class="text-center fst-italic">Figure 1: Architecture of the original Encodec model.</p>
+                <img src="./imgs/system.png" alt="encodec architecture" style="width: 100%; border-radius: 10px;">
+                <p class="text-center fst-italic">System Overview: Transforming inexpressive score MIDIs to expressive audio performances.</p>
+
+                <br>
+    
                 <p class="pr-5 pl-5">
-                    I followed the provided training pipelines in the <a href="https://github.com/facebookresearch/audiocraft">audiocraft</a> 
-                    library and fine-tuned the compression model MusicGen_Encodec_32khz with the ATEPP dataset. 
-                    Around 7000 performances (~700hs) were used for training. The model was fine-tuned for 40 epochs, taking around 7 hours using two A100 gpus.
-                    <br>
-                    <br>
-                    More details from the <a href="https://arxiv.org/pdf/2306.05284">paper</a>:
-                    "We use a non-causal five layers EnCodec model for 32 kHz monophonic audio with a stride of 640, 
-                    resulting in a frame rate of 50 Hz, and an initial hidden size of 64, doubling
-                    at each of the model's five layers. The embeddings are quantized with a RVQ with <b>four quantizers,
-                    each with a codebook size of 2048</b>. We follow Défossez et al. [2022] to train the model on one-second
-                    audio segments cropped at random in the audio sequence."
-                    <br>
-                    <br>
-                    I randomly selected five reconstructed samples of 10s from the test set as listening examples.
+                    This demo page showcases samples from our system that transforms symbolic music scores into expressive piano performance audio. 
+                    The system integrates a Transformer-based Expressive Performance Rendering (EPR) model with a finely tuned neural MIDI synthesizer. 
+                    It offers an efficient approach for converting plain score MIDI files into rich, expressive piano performances. Due to the data limitation, 
+                    the system currently only focuses on handling Beethoven's works, especially Sonatas.
                 </p>
             </div>
             <br>
             <div class="section">
-                <!-- <h2>Examples</h2> -->
                 <div class="">
                     <!-- <h4 class="text-center">Realistic Style Transfer</h4> -->
                 <table class="table table-sm text-center" style="vertical-align: middle;">
                     <thead>
                         <tr>
                             <th><span class="">Source</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Sample A</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Sample B</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Sample C</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Sample D</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Sample E</span> <br> <span class="detail"></span></th>
+                            <th><span class="">Audios</span> <br> <span class="detail"></span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Row 1 -->
-                        <tr>
-                            <td class="passage">Groundtruth</td>
-                            <td><audio id="A_audio_reference"
-                                onended="audioEnd('A_btn_reference', 'A_audio_reference')">
-                                <source src="./audios/reference/A.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_reference"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_reference', 'A_audio_reference')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="B_audio_reference"
-                                onended="audioEnd('B_btn_reference', 'B_audio_reference')">
-                                <source src="./audios/reference/B.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_reference"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_reference', 'B_audio_reference')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="C_audio_reference"
-                                onended="audioEnd('C_btn_reference', 'C_audio_reference')">
-                                <source src="./audios/reference/C.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_reference"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_reference', 'C_audio_reference')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_reference"
-                                onended="audioEnd('D_btn_reference', 'D_audio_reference')">
-                                <source src="./audios/reference/D.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_reference"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_reference', 'D_audio_reference')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="E_audio_reference"
-                                onended="audioEnd('E_btn_reference', 'E_audio_reference')">
-                                <source src="./audios/reference/E.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="E_btn_reference"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('E_btn_reference', 'E_audio_reference')">Play</button>
-                            </div>
-                            </td>
-
-                        </tr>
                         <!-- Row 2 -->
                         <tr>
-                            <td class="passage">Encodec (w/o fine-tuning)</td>
-                            <td><audio id="A_audio_encodec_wo_ft"
-                                onended="audioEnd('A_btn_encodec_wo_ft', 'A_audio_encodec_wo_ft')">
-                                <source src="./audios/encodec/A.mp3" type="audio/mpeg">
+                            <td class="passage">Human</td>
+                            <td><audio controls>
+                                <source src="./audios/perf_pianoteq.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_encodec_wo_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_encodec_wo_ft', 'A_audio_encodec_wo_ft')">Play</button>
-                            </div>
                             </td>
-
-                            <td><audio id="B_audio_encodec_wo_ft"
-                                onended="audioEnd('B_btn_encodec_wo_ft', 'B_audio_encodec_wo_ft')">
-                                <source src="./audios/encodec/B.mp3" type="audio/mpeg">
+                        </tr>
+                        <!-- Row 1 -->
+                        <tr>
+                            <td class="passage">Score MIDI (Pianteq)</td>
+                            <td><audio controls>
+                                <source src="./audios/score_pianoteq.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_encodec_wo_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_encodec_wo_ft', 'B_audio_encodec_wo_ft')">Play</button>
-                            </div>
                             </td>
-
-                            <td><audio id="C_audio_encodec_wo_ft"
-                                onended="audioEnd('C_btn_encodec_wo_ft', 'C_audio_encodec_wo_ft')">
-                                <source src="./audios/encodec/C.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_encodec_wo_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_encodec_wo_ft', 'C_audio_encodec_wo_ft')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_encodec_wo_ft"
-                                onended="audioEnd('D_btn_encodec_wo_ft', 'D_audio_encodec_wo_ft')">
-                                <source src="./audios/encodec/D.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_encodec_wo_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_encodec_wo_ft', 'D_audio_encodec_wo_ft')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="E_audio_encodec_wo_ft"
-                                onended="audioEnd('E_btn_encodec_wo_ft', 'E_audio_encodec_wo_ft')">
-                                <source src="./audios/encodec/E.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="E_btn_encodec_wo_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('E_btn_encodec_wo_ft', 'E_audio_encodec_wo_ft')">Play</button>
-                            </div>
-                            </td>
-                        </tr> 
+                        </tr>
                         <!-- Row 3 -->
                         <tr>
-                            <td>Encodec (fine-tuned)</td>
-                            <td><audio id="A_audio_encodec_ft"
-                                onended="audioEnd('A_btn_encodec_ft', 'A_audio_encodec_ft')">
-                                <source src="./audios/encodec-ft-full/A.mp3" type="audio/mpeg">
+                            <td class="passage">Generation (MIDI + Pianoteq)</td>
+                            <td><audio controls>
+                                <source src="./audios/generation_pianoteq.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_encodec_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_encodec_ft', 'A_audio_encodec_ft')">Play</button>
-                            </div>
                             </td>
-
-                            <td><audio id="B_audio_encodec_ft"
-                                onended="audioEnd('B_btn_encodec_ft', 'B_audio_encodec_ft')">
-                                <source src="./audios/encodec-ft-full/B.mp3" type="audio/mpeg">
+                        </tr>         
+                        <!-- Row 4 -->
+                        <tr>
+                            <td class="passage">Generation (Full System)</td>
+                            <td><audio controls>
+                                <source src="./audios/generation_system.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_encodec_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_encodec_ft', 'B_audio_encodec_ft')">Play</button>
-                            </div>
                             </td>
-
-                            <td><audio id="C_audio_encodec_ft"
-                                onended="audioEnd('C_btn_encodec_ft', 'C_audio_encodec_ft')">
-                                <source src="./audios/encodec-ft-full/C.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_encodec_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_encodec_ft', 'C_audio_encodec_ft')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_encodec_ft"
-                                onended="audioEnd('D_btn_encodec_ft', 'D_audio_encodec_ft')">
-                                <source src="./audios/encodec-ft-full/D.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_encodec_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_encodec_ft', 'D_audio_encodec_ft')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="E_audio_encodec_ft"
-                                onended="audioEnd('E_btn_encodec_ft', 'E_audio_encodec_ft')">
-                                <source src="./audios/encodec-ft-full/E.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="E_btn_encodec_ft"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('E_btn_encodec_ft', 'E_audio_encodec_ft')">Play</button>
-                            </div>
-                            </td>
-                        </tr>                 
+                        </tr>         
+                        
                     </tbody>
                 </table>
                 </div>
             </div>
             <br>
-            <div class="section">
-                <h2 class="text-center">Step2: Training the Vall-E Model with Midis</h2>
-                <hr>
-                <img src="./imgs/valle.jpg" alt="vall-e architecture" style="width: 100%;">
-                <p class="text-center fst-italic">Figure 2: Architecture of the original Vall-E model.</p>
-                <p class="pr-5 pl-5">
-                Following our last discussion, I have tried two different ways to improve the performance of the Midi-VaLLE model:
-                <br>
-                <ol class="inline-list">
-                    <li class="pr-2">increase the size of training data (Using a cleaned ATEPP version, 8862 performances, <del>581/73h/73h</del> 243/30/30h)</li> 
-                    <li class="pr-2">shorten the length of each segment (from 15-20s to 3-10s, based on the number notes in the segment)</li>
-                    <li class="pr-2">prompt the training with utterance from next/previous segment of the same performance (similar to the paper)
-                        <br>
-                        <br>
-                        <img class="img-fluid mx-auto d-block" src="./imgs/prefix.png" alt="prefix methods">
-                        <!-- <p class="text-center fst-italic fs-6">Figure 3: Prefix methods for training the Vall-E model.</p> -->
-                    </li>
-                </ol>
-                I have selected four different segments from various performances and compositions, organized into three distinct groups of samples. 
-                For each group, three types of audio are presented:
-                <br>
-                <br>
-                <ol class="inline-list">
-                    <li class="pr-2"><b>Groundtruth</b>: The original audio segment from the performance.</li>
-                    <li class="pr-2"><b>Encodec-FT</b>: Audio reconstructed by the 32khz Encodec model, which was <b>fine-tuned</b> as previously described.</li>
-                    <li class="pr-2"><b>Vall-E(Encodec-FT)-1</b>: Audio generated by the VALLE model with <b>the first 1-3s of the same segment</b> as prompt.</li>
-                    <li class="pr-2"><b>Vall-E(Encodec-FT)-2</b>: Audio generated by the VALLE model with <b>the randomly selected 1-3s of another (next/previous) segment</b> as prompt</li>
-                </ol>
-                </p>
-                <table class="table table-sm text-center" style="vertical-align: middle;">
-                        <tr>
-                            <th><span class="">Source</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Seg1: 00253_2_32</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Seg2: 07804_28_4</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Seg3: 06978_11_27</span> <br> <span class="detail"></span></th>
-                            <th><span class="">Seg4: 04287_9_23</span> <br> <span class="detail"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Row 1 -->
-                        <tr>
-                            <td>Groundtruth</td>
-                            <td><audio id="A_audio_valle_prompt_gt"
-                                onended="audioEnd('A_btn_valle_prompt_gt', 'A_audio_valle_prompt_gt')">
-                                <source src="./audios/prompt_gt/00253_2_32.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_valle_prompt_gt"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_valle_prompt_gt', 'A_audio_valle_prompt_gt')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="B_audio_valle_prompt_gt"
-                                onended="audioEnd('B_btn_valle_prompt_gt', 'B_audio_valle_prompt_gt')">
-                                <source src="./audios/prompt_gt/07804_28_4.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_valle_prompt_gt"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_valle_prompt_gt', 'B_audio_valle_prompt_gt')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="C_audio_valle_prompt_gt"
-                                onended="audioEnd('C_btn_valle_prompt_gt', 'C_audio_valle_prompt_gt')">
-                                <source src="./audios/prompt_gt/06978_11_27.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_valle_prompt_gt"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_valle_prompt_gt', 'C_audio_valle_prompt_gt')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_valle_prompt_gt"
-                                onended="audioEnd('D_btn_valle_prompt_gt', 'D_audio_valle_prompt_gt')">
-                                <source src="./audios/prompt_gt/04287_9_23.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_valle_prompt_gt"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_valle_prompt_gt', 'D_audio_valle_prompt_gt')">Play</button>
-                            </div>
-                            </td>
-
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                            <td>Encodec-FT</td>
-                            <td><audio id="A_audio_valle_prompt_encodec"
-                                onended="audioEnd('A_btn_valle_prompt_encodec', 'A_audio_valle_prompt_encodec')">
-                                <source src="./audios/prompt_encodec/00253_2_32.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_valle_prompt_encodec"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_valle_prompt_encodec', 'A_audio_valle_prompt_encodec')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="B_audio_valle_prompt_encodec"
-                                onended="audioEnd('B_btn_valle_prompt_encodec', 'B_audio_valle_prompt_encodec')">
-                                <source src="./audios/prompt_encodec/07804_28_4.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_valle_prompt_encodec"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_valle_prompt_encodec', 'B_audio_valle_prompt_encodec')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="C_audio_valle_prompt_encodec"
-                                onended="audioEnd('C_btn_valle_prompt_encodec', 'C_audio_valle_prompt_encodec')">
-                                <source src="./audios/prompt_encodec/06978_11_27.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_valle_prompt_encodec"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_valle_prompt_encodec', 'C_audio_valle_prompt_encodec')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_valle_prompt_encodec"
-                                onended="audioEnd('D_btn_valle_prompt_encodec', 'D_audio_valle_prompt_encodec')">
-                                <source src="./audios/prompt_encodec/04287_9_23.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_valle_prompt_encodec"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_valle_prompt_encodec', 'D_audio_valle_prompt_encodec')">Play</button>
-                            </div>
-                            </td>
-
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr>
-                            <td>Vall-E(Encodec-FT)-1</td>
-                            <td><audio id="A_audio_valle_prompt_valle"
-                                onended="audioEnd('A_btn_valle_prompt_valle', 'A_audio_valle_prompt_valle')">
-                                <source src="./audios/large-cat/00253_2_32.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_valle_prompt_valle', 'A_audio_valle_prompt_valle')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="B_audio_valle_prompt_valle"
-                                onended="audioEnd('B_btn_valle_prompt_valle', 'B_audio_valle_prompt_valle')">
-                                <source src="./audios/large-cat/07804_28_4.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_valle_prompt_valle', 'B_audio_valle_prompt_valle')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="C_audio_valle_prompt_valle"
-                                onended="audioEnd('C_btn_valle_prompt_valle', 'C_audio_valle_prompt_valle')">
-                                <source src="./audios/large-cat/06978_11_27.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_valle_prompt_valle', 'C_audio_valle_prompt_valle')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_valle_prompt_valle"
-                                onended="audioEnd('D_btn_valle_prompt_valle', 'D_audio_valle_prompt_valle')">
-                                <source src="./audios/large-cat/04287_9_23.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_valle_prompt_valle', 'D_audio_valle_prompt_valle')">Play</button>
-                            </div>
-                            </td>
-                        </tr>      
-                        <!-- Row 4 -->
-                        <tr>
-                            <td>Vall-E(Encodec-FT)-2</td>
-                            <td><audio id="A_audio_valle_prompt_valle2"
-                                onended="audioEnd('A_btn_valle_prompt_valle2', 'A_audio_valle_prompt_valle2')">
-                                <source src="./audios/large-4-cat/00253_2_32.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="A_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('A_btn_valle_prompt_valle2', 'A_audio_valle_prompt_valle2')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="B_audio_valle_prompt_valle2"
-                                onended="audioEnd('B_btn_valle_prompt_valle2', 'B_audio_valle_prompt_valle2')">
-                                <source src="./audios/large-4-cat/07804_28_4.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="B_btn_valle_prompt_valle2"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('B_btn_valle_prompt_valle2', 'B_audio_valle_prompt_valle2')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="C_audio_valle_prompt_valle2"
-                                onended="audioEnd('C_btn_valle_prompt_valle2', 'C_audio_valle_prompt_valle2')">
-                                <source src="./audios/large-4-cat/06978_11_27.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="C_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('C_btn_valle_prompt_valle2', 'C_audio_valle_prompt_valle2')">Play</button>
-                            </div>
-                            </td>
-
-                            <td><audio id="D_audio_valle_prompt_valle2"
-                                onended="audioEnd('D_btn_valle_prompt_valle2', 'D_audio_valle_prompt_valle2')">
-                                <source src="./audios/large-4-cat/04287_9_23.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                            <div>
-                                <button style="width:100%" id="D_btn_valle_prompt_valle"
-                                    class="btn btn-secondary"
-                                    onclick="togglePlay('D_btn_valle_prompt_valle2', 'D_audio_valle_prompt_valle2')">Play</button>
-                            </div>
-                            </td>
-                        </tr>  
-                    </tbody>
-                </table>
-                <div>
-                <br> 
-                <br> 
-                When training the Valle model, the MIDI files were first tokenized using a method similar to the one used in the score-to-audio project.
-
-                <br> 
-                <br>   
-                The unoffical implementation of the Vall-E was trained with prompts from the first N (randemly selected, N < 3) seconds of the current uttrance, which is
-                different from the way described in the paper (prompted with segments from other utterace by the same speaker). 
-                <br> 
-                <br> 
-
-                <!-- In the inference stage, the input midi tokens were constructed in different structure as the training input, 
-                for example, given the 3s-prompts and the target synthesised midi as:
-                    
-                    <pre><code>
-                        # The midi PROMPT corresponding to the 3s audio prompt
-                        # (Pitch, Velocity, Duration, IOI, Position, Bar)
-                        [[  1,   1,   1,   1,   1,   1],
-                         [ 40,  37,  10, 388,   7,   4], # -> first note in the first bar
-                         [ 36,  32,  10, 389,   8,   4], # -> second note in the first bar
-                         [ 39,  42,  12, 448,  89,   5],  
-                         [ 47,  40,  15, 442, 165,   5],
-                         [  2,   2,   2,   2,   2,   2]]
-
-                        # The TARGET midi (the input when training)
-                        # (Pitch, Velocity, Duration, IOI, Position, Bar)
-                        [[  1,   1,   1,   1,   1,   1],
-                         [ 59,  40,  11, 388, 165,   4],
-                         [ 31,  32,  11, 389, 166,   4],
-                         [ 43,  35,  14, 389, 167,   5],
-                         [ 60,  49,  12, 410, 189,   5],
-                         [ 36,  43,  59, 388, 189,   6],
-                         [ 48,  47,  16, 388, 189,   6],
-                         [  2,   2,   2,   2,   2,   2]]
-
-                        # The input for inference would be PROMPT + TARGET
-                        # (Pitch, Velocity, Duration, IOI, Position, Bar)
-                        [[  1,   1,   1,   1,   1,   1],
-                         [ 40,  37,  10, 388,   7,   4], # -> first note in the first bar
-                         [ 36,  32,  10, 389,   8,   4], # -> second note in the first bar
-                         [ 39,  42,  12, 448,  89,   5],  
-                         [ 47,  40,  15, 442, 165,   5],
-                         ------------------------------  # -> concatenate
-                         [ 59,  40,  11, 388, 165,   4],
-                         [ 31,  32,  11, 389, 166,   4],
-                         [ 43,  35,  14, 389, 167,   5],
-                         [ 60,  49,  12, 410, 189,   5],
-                         [ 36,  43,  59, 388, 189,   6],
-                         [ 48,  47,  16, 388, 189,   6],
-                         [  2,   2,   2,   2,   2,   2]]
-                    </code></pre>
-                    
-                This leads to the issues in the inference stage, causing inconvience for prompting with other performances or segments rather than 
-                just the beginning of the utterance. Moreover, the ending time was also weird due to the bar value differences, generating long silence generated at the end. 
-                
-                Therefore, we switch to another MIDI tokenization method called REMI, which gives a one-dimentional token sequence rather than an array. 
-                This way makes the input closer to the text tokens, and the timing was tokenised by no absolute timing information, as shown below: <br> -->
-                <!-- Insert your image here -->
-                <!-- <ul>
-                <li>REMI</li>
-                <div align=center>
-                <img src="imgs/remi.png" alt="The REMI tokenization." width=50%>
-                </div>
-                <li>OCTUPLE</li>
-                <div align=center>
-                <img src="imgs/octuple.png" alt="The REMI tokenization." width=50%>
-                </div>
-                </ul>
-                However, the gradients exploded as training and the vocabulary sizes as well as the sequence lengths became much larger. 
-                We now back to the original method using only pitch, velocity, duration, and ioi to see.
-                </div> -->
-                
-            </div>
+            <h4>Extended Outputs from Our System</h4>
+            Our system can generate longer, more complex audio performances using only the score MIDI as input.
+            <br>
+            <br>
+            <ul>
+            <li>"Piano Sonata No.9 in E, Op.14 No.1: 1. Allegro", composed by Ludwig van Beethoven</li>
+            <br>
+            <audio controls>
+                <source src="./audios/long_system.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <br>
+            <br>
+            <li>"Piano Sonata No. 31 in A-Flat Major, Op. 110: 2. Allegro molto", composed by Ludwig van Beethoven</li>
+            <br>
+            <audio controls>
+                <source src="./audios/long_system_2.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </ul>
+            </audio>
         </div>
     </div>
     <footer class="text-center">
